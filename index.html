@@ -856,14 +856,14 @@
        📞
       </div>
       <h3>WhatsApp</h3>
-      <p id="contactPhone">+6282197722366</p><button onclick="openWhatsAppModal()" class="contact-button" style="border: none; cursor: pointer;">Kirim Pesan WhatsApp</button>
+      <p id="contactPhone">+6282197722366</p><button onclick="sendWhatsAppMessage()" class="contact-button" style="border: none; cursor: pointer;">Kirim Pesan WhatsApp</button>
      </div>
      <div class="contact-card">
       <div class="contact-icon">
        📧
       </div>
       <h3>Email</h3>
-      <p id="contactEmail">sekretariat.kktmbd@gmail.com</p><a href="#" id="emailButton" class="contact-button" target="_blank" rel="noopener noreferrer">Kirim Email</a>
+      <p id="contactEmail">sekretariat.kbkkktmbd@gmail.com</p><a href="#" id="emailButton" class="contact-button" target="_blank" rel="noopener noreferrer">Kirim Email</a>
      </div>
     </div>
    </div>
@@ -895,7 +895,7 @@
             tanggal_acara: "15 November 2025",
             lokasi_acara: "Aula Paroki St. Matia Saumlaki",
             tema_acara: "Berkarya Bersama Dalam Iman dan Kasih",
-            nomor_kontak: "+62 812-xxxx-xxxx",
+            nomor_kontak: "++6282197722366",
             email_kontak: "sekretariat.kktmbd@gmail.com",
             background_color: "#4A90E2",
             surface_color: "#FFFFFF",
@@ -1070,6 +1070,18 @@ Tuhan memberkati.
             window.URL.revokeObjectURL(url);
         }
 
+        // Send WhatsApp Message Directly
+        function sendWhatsAppMessage() {
+            const config = window.elementSdk?.config || defaultConfig;
+            const phoneNumber = (config.nomor_kontak || defaultConfig.nomor_kontak).replace(/[^0-9]/g, '');
+            
+            const whatsappMessage = `Halo Panitia Rapat Kerja KBK KKT-MBD 2025,%0A%0ASaya ingin mendapatkan informasi lebih lanjut mengenai kegiatan Rapat Kerja Kaum Bapak Katolik Kevikepan KKT-MBD 2025.%0A%0ATerima kasih.`;
+            
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
+            
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+
         // WhatsApp Modal Functions
         function openWhatsAppModal() {
             document.getElementById('whatsappModal').classList.add('show');
@@ -1222,5 +1234,5 @@ Tuhan memberkati.
             updateContactLinks(window.elementSdk?.config || defaultConfig);
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99ba2649b401c6f3',t:'MTc2MjY1ODE2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99ba3147975f2739',t:'MTc2MjY1ODYxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
