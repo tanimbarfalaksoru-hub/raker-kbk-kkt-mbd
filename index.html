@@ -541,6 +541,99 @@
             transform: translateY(-2px);
         }
 
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #4A90E2, #D4AF37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -629,7 +722,7 @@
  <body><!-- Navigasi -->
   <nav class="navbar">
    <div class="nav-container">
-    <div class="logo"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhaHNePa9QyUif9zDgG02GxIA3Jgj7JL_IrBpYwWCXDy6y_fBZYjy94R6X8mBUakRguMEB6POELgFOnvKCDDS1ARtW9Y-G2ON1rHzZcNtG0gk5X3eScAHM0nYwEPOvWOTVq3nlsLrjQJdUM8HOXTIULTuGshHUo1W2zJ_y5e2z4pfk-tb4uDUZPKiLLGW4-/s320/Santo%20Yosep%20(4).png" alt="Logo KKT-MBD" class="logo-img" onerror="this.style.display='none';"> <span>KKT–MBD 2025</span>
+    <div class="logo"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhaHNePa9QyUif9zDgG02GxIA3Jgj7JL_IrBpYwWCXDy6y_fBZYjy94R6X8mBUakRguMEB6POELgFOnvKCDDS1ARtW9Y-G2ON1rHzZcNtG0gk5X3eScAHM0nYwEPOvWOTVq3nlsLrjQJdUM8HOXTIULTuGshHUo1W2zJ_y5e2z4pfk-tb4uDUZPKiLLGW4-/s320/Santo%20Yosep%20(4).png" alt="Logo KKT-MBD" class="logo-img" onerror="this.style.display='none';"> <span>KBK KKT-MBD 2025</span>
     </div><button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
     <ul class="nav-links" id="navLinks">
      <li><a href="#home" onclick="closeMenu()">Beranda</a></li>
@@ -763,7 +856,7 @@
        📞
       </div>
       <h3>WhatsApp</h3>
-      <p id="contactPhone">+62 812-xxxx-xxxx</p><a href="#" id="waButton" class="contact-button" target="_blank" rel="noopener noreferrer">Kirim Pesan WhatsApp</a>
+      <p id="contactPhone">+62 812-xxxx-xxxx</p><button onclick="openWhatsAppModal()" class="contact-button" style="border: none; cursor: pointer;">Kirim Pesan WhatsApp</button>
      </div>
      <div class="contact-card">
       <div class="contact-icon">
@@ -774,7 +867,21 @@
      </div>
     </div>
    </div>
-  </section><!-- Footer -->
+  </section><!-- Modal WhatsApp -->
+  <div class="modal-overlay" id="whatsappModal">
+   <div class="modal-content"><button class="modal-close" onclick="closeWhatsAppModal()">×</button>
+    <h3 class="modal-title">Hubungi Kami</h3>
+    <p class="modal-subtitle">Isi form di bawah untuk mengirim pesan via WhatsApp</p>
+    <form id="whatsappForm">
+     <div class="form-group"><label for="waName">Nama Lengkap *</label> <input type="text" id="waName" required placeholder="Masukkan nama lengkap Anda">
+     </div>
+     <div class="form-group"><label for="waParoki">Paroki *</label> <input type="text" id="waParoki" required placeholder="Contoh: Paroki St. Petrus">
+     </div>
+     <div class="form-group"><label for="waMessage">Pesan *</label> <textarea id="waMessage" required placeholder="Tulis pesan Anda di sini..." style="width: 100%; padding: 1rem; border: 2px solid #E0E0E0; border-radius: 10px; font-size: 1rem; font-family: 'Poppins', sans-serif; min-height: 120px; resize: vertical;"></textarea>
+     </div><button type="submit" class="form-submit">Kirim Pesan WhatsApp</button>
+    </form>
+   </div>
+  </div><!-- Footer -->
   <footer>
    <div class="footer-content">
     <p class="footer-text">© 2025 Kaum Bapak Katolik Kevikepan KKT–MBD | Dibuat dengan kasih dan semangat pelayanan</p><a href="#home" class="back-to-top">↑ Kembali ke Atas</a>
@@ -896,13 +1003,48 @@
 
         // Update contact links
         function updateContactLinks(config) {
-            const phoneNumber = (config.nomor_kontak || defaultConfig.nomor_kontak).replace(/[^0-9]/g, '');
-            const waButton = document.getElementById('waButton');
             const emailButton = document.getElementById('emailButton');
-            
-            waButton.href = `https://wa.me/${phoneNumber}?text=Halo,%20saya%20ingin%20bertanya%20tentang%20Rapat%20Kerja%20Kaum%20Bapak%20Katolik%20KKT-MBD%202025`;
             emailButton.href = `mailto:${config.email_kontak || defaultConfig.email_kontak}?subject=Pertanyaan%20Rapat%20Kerja%20KKT-MBD%202025`;
         }
+
+        // WhatsApp Modal Functions
+        function openWhatsAppModal() {
+            document.getElementById('whatsappModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeWhatsAppModal() {
+            document.getElementById('whatsappModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+            document.getElementById('whatsappForm').reset();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('whatsappModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeWhatsAppModal();
+            }
+        });
+
+        // WhatsApp Form Submission
+        document.getElementById('whatsappForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('waName').value;
+            const paroki = document.getElementById('waParoki').value;
+            const message = document.getElementById('waMessage').value;
+            
+            const config = window.elementSdk?.config || defaultConfig;
+            const phoneNumber = (config.nomor_kontak || defaultConfig.nomor_kontak).replace(/[^0-9]/g, '');
+            
+            const whatsappMessage = `Halo, saya ingin menghubungi panitia Rapat Kerja KBK KKT-MBD 2025.%0A%0A*Nama:* ${encodeURIComponent(name)}%0A*Paroki:* ${encodeURIComponent(paroki)}%0A*Pesan:* ${encodeURIComponent(message)}`;
+            
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
+            
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+            
+            closeWhatsAppModal();
+        });
 
         // Element SDK Implementation
         async function onConfigChange(config) {
@@ -1017,5 +1159,5 @@
             updateContactLinks(window.elementSdk?.config || defaultConfig);
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99ba113e3578fd84',t:'MTc2MjY1NzMwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99ba1924301efd84',t:'MTc2MjY1NzYyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
