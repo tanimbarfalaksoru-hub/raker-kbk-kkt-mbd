@@ -738,7 +738,7 @@
    <div class="hero-content">
     <h1 id="heroTitle">Rapat Kerja Kaum Bapak Katolik Kevikepan KKT–MBD 2025</h1>
     <p id="heroSubtitle">Bersatu Dalam Iman, Melangkah Dalam Tanggung Jawab</p>
-    <div class="hero-buttons"><a href="#registrasi" class="btn btn-primary">🔹 Daftar Sekarang</a> <a href="#kontak" class="btn btn-secondary">🔹 Hubungi Kami</a>
+    <div class="hero-buttons"><a href="#registrasi" class="btn btn-primary">🔹 Daftar Sekarang</a> <button onclick="downloadInvitation()" class="btn btn-secondary" style="cursor: pointer;">📥 Download Undangan</button> <a href="#kontak" class="btn btn-secondary">🔹 Hubungi Kami</a>
     </div>
    </div>
   </section><!-- Tentang Acara -->
@@ -842,7 +842,7 @@
    <div class="container">
     <h2 class="section-title">Lokasi Rapat Kerja</h2>
     <p class="section-subtitle">Berikut lokasi kegiatan Rapat Kerja Kaum Bapak Katolik Kevikepan KKT–MBD 2025</p>
-    <div class="map-container"><iframe class="map-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.!2d131.!3d-7.!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d2754de6e26e543%3A0xc5c810c756c42bb3!2sGereja%20Katolik%20Paroki%20Santo%20Mathias%2C%20Saumlaki!5e0!3m2!1sid!2sid!4v.!5m2!1sid!2sid" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"> </iframe> <a href="https://maps.google.com/?q=Aula+Paroki+St+Petrus+Tanimbar+Kei" target="_blank" rel="noopener noreferrer" class="map-button"> 🗺️ Buka di Google Maps </a>
+    <div class="map-container"><iframe class="map-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.!2d131.!3d-7.!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d2754de6e26e543%3A0xc5c810c756c42bb3!2sGereja%20Katolik%20Paroki%20Santo%20Mathias%2C%20Saumlaki!5e0!3m2!1sid!2sid!4v.!5m2!1sid!2sid" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"> </iframe> <a href="https://maps.google.com/?q=Aula+Paroki+St+Matia+Saumlaki" target="_blank" rel="noopener noreferrer" class="map-button"> 🗺️ Buka di Google Maps </a>
     </div>
    </div>
   </section><!-- Hubungi Kami -->
@@ -856,7 +856,7 @@
        📞
       </div>
       <h3>WhatsApp</h3>
-      <p id="contactPhone">+62 812-xxxx-xxxx</p><button onclick="openWhatsAppModal()" class="contact-button" style="border: none; cursor: pointer;">Kirim Pesan WhatsApp</button>
+      <p id="contactPhone">+6282197722366</p><button onclick="openWhatsAppModal()" class="contact-button" style="border: none; cursor: pointer;">Kirim Pesan WhatsApp</button>
      </div>
      <div class="contact-card">
       <div class="contact-icon">
@@ -893,7 +893,7 @@
             judul_utama: "Rapat Kerja Kaum Bapak Katolik Kevikepan KKT–MBD 2025",
             subjudul: "Bersatu Dalam Iman, Melangkah Dalam Tanggung Jawab",
             tanggal_acara: "15 November 2025",
-            lokasi_acara: "Aula Paroki St. Petrus Tanimbar Kei",
+            lokasi_acara: "Aula Paroki St. Matia Saumlaki",
             tema_acara: "Berkarya Bersama Dalam Iman dan Kasih",
             nomor_kontak: "+62 812-xxxx-xxxx",
             email_kontak: "sekretariat.kktmbd@gmail.com",
@@ -1005,6 +1005,69 @@
         function updateContactLinks(config) {
             const emailButton = document.getElementById('emailButton');
             emailButton.href = `mailto:${config.email_kontak || defaultConfig.email_kontak}?subject=Pertanyaan%20Rapat%20Kerja%20KKT-MBD%202025`;
+        }
+
+        // Download Invitation Function
+        function downloadInvitation() {
+            const config = window.elementSdk?.config || defaultConfig;
+            
+            // Create invitation content
+            const invitationText = `
+═══════════════════════════════════════
+    UNDANGAN RAPAT KERJA
+    KAUM BAPAK KATOLIK
+    KEVIKEPAN KKT-MBD 2025
+═══════════════════════════════════════
+
+${config.judul_utama || defaultConfig.judul_utama}
+
+${config.subjudul || defaultConfig.subjudul}
+
+───────────────────────────────────────
+INFORMASI KEGIATAN
+───────────────────────────────────────
+
+📅 Tanggal:
+   ${config.tanggal_acara || defaultConfig.tanggal_acara}
+
+📍 Lokasi:
+   ${config.lokasi_acara || defaultConfig.lokasi_acara}
+
+🎯 Tema:
+   ${config.tema_acara || defaultConfig.tema_acara}
+
+───────────────────────────────────────
+KONTAK PANITIA
+───────────────────────────────────────
+
+📞 WhatsApp: ${config.nomor_kontak || defaultConfig.nomor_kontak}
+📧 Email: ${config.email_kontak || defaultConfig.email_kontak}
+
+───────────────────────────────────────
+
+Kami mengundang Bapak untuk hadir dalam
+Rapat Kerja Kaum Bapak Katolik Kevikepan
+KKT-MBD 2025.
+
+Kehadiran Bapak sangat kami harapkan.
+
+Tuhan memberkati.
+
+═══════════════════════════════════════
+© 2025 Kaum Bapak Katolik Kevikepan KKT-MBD
+═══════════════════════════════════════
+            `;
+            
+            // Create blob and download
+            const blob = new Blob([invitationText], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Undangan_Raker_KBK_KKT-MBD_2025.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
         }
 
         // WhatsApp Modal Functions
@@ -1159,5 +1222,5 @@
             updateContactLinks(window.elementSdk?.config || defaultConfig);
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99ba1924301efd84',t:'MTc2MjY1NzYyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99ba2649b401c6f3',t:'MTc2MjY1ODE2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
