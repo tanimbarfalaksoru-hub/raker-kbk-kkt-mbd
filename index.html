@@ -870,6 +870,148 @@
       box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
     }
 
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      padding: 2.5rem;
+      border-radius: 25px;
+      max-width: 900px;
+      width: 90%;
+      max-height: 85%;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.4s ease;
+      position: relative;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .modal-title {
+      font-size: 2rem;
+      color: #1a2340;
+      font-weight: bold;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .modal-close:hover {
+      background: rgba(212, 175, 55, 0.1);
+      color: #d4af37;
+      transform: rotate(90deg);
+    }
+
+    .participants-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .participants-table th {
+      background: linear-gradient(135deg, #1a2340, #2d3e6f);
+      color: #f4e5c3;
+      padding: 1rem;
+      text-align: left;
+      font-weight: bold;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .participants-table th:first-child {
+      border-radius: 10px 0 0 0;
+    }
+
+    .participants-table th:last-child {
+      border-radius: 0 10px 0 0;
+    }
+
+    .participants-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      color: #1a2340;
+      font-size: 0.95rem;
+    }
+
+    .participants-table tr:hover {
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    .participants-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: #666;
+    }
+
+    .empty-state-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.3;
+    }
+
+    .empty-state-text {
+      font-size: 1.2rem;
+      color: #999;
+    }
+
     /* Responsive */
     @media (max-width: 968px) {
       .nav-menu {
@@ -990,7 +1132,7 @@
    <div class="hero-content">
     <h1 class="hero-title" id="heroTitle">Rapat Kerja Kaum Bapak Katolik Kevikepan KKT-MBD 2025</h1>
     <p class="hero-subtitle" id="heroSubtitle">Bersatu dalam Iman, Berkarya dalam Kasih, Melayani dengan Tulus</p>
-    <div class="hero-buttons"><button class="btn-primary" onclick="scrollToSection('registrasi')"> 📝 Registrasi Peserta </button> <button class="btn-secondary" onclick="scrollToSection('kontak')"> 📞 Hubungi Kami </button>
+    <div class="hero-buttons"><button class="btn-primary" onclick="openParticipantsModal()"> 👥 Lihat Peserta </button> <button class="btn-secondary" onclick="scrollToSection('kontak')"> 📞 Hubungi Kami </button>
     </div>
    </div>
   </section><!-- About Section -->
@@ -1035,15 +1177,13 @@
      <form id="registrationForm">
       <div class="form-group"><label for="namaLengkap" class="form-label">Nama Lengkap *</label> <input type="text" id="namaLengkap" class="form-input" required placeholder="Masukkan nama lengkap Anda">
       </div>
-      <div class="form-group"><label for="parokiDesa" class="form-label">Paroki / Desa *</label> <input type="text" id="parokiDesa" class="form-input" required placeholder="Masukkan paroki atau desa Anda">
+      <div class="form-group"><label for="paroki" class="form-label">Paroki *</label> <input type="text" id="paroki" class="form-input" required placeholder="Masukkan paroki Anda">
       </div>
-      <div class="form-group"><label for="nomorHp" class="form-label">Nomor HP / WhatsApp *</label> <input type="tel" id="nomorHp" class="form-input" required placeholder="+62 812-XXXX-XXXX">
+      <div class="form-group"><label for="nomorHp" class="form-label">No HP / WhatsApp</label> <input type="tel" id="nomorHp" class="form-input" placeholder="+62 812-XXXX-XXXX">
       </div>
-      <div class="form-group"><label for="email" class="form-label">Email (Opsional)</label> <input type="email" id="email" class="form-input" placeholder="email@contoh.com">
+      <div class="form-group"><label for="email" class="form-label">Email</label> <input type="email" id="email" class="form-input" placeholder="email@contoh.com">
       </div>
-      <div class="form-group"><label for="jumlahPeserta" class="form-label">Jumlah Peserta *</label> <select id="jumlahPeserta" class="form-select" required> <option value="">Pilih jumlah peserta</option> <option value="1">1 Orang</option> <option value="2">2 Orang</option> <option value="3">3 Orang</option> <option value="4">4 Orang</option> <option value="5+">5+ Orang</option> </select>
-      </div>
-      <div class="form-group"><label for="catatan" class="form-label">Catatan / Kebutuhan Khusus</label> <textarea id="catatan" class="form-textarea" placeholder="Tuliskan catatan atau kebutuhan khusus Anda (opsional)"></textarea>
+      <div class="form-group"><label for="catatan" class="form-label">Catatan</label> <textarea id="catatan" class="form-textarea" placeholder="Tuliskan catatan Anda (opsional)"></textarea>
       </div><button type="submit" class="form-submit" id="submitBtn">Daftar Sekarang</button>
      </form>
      <div class="success-message" id="successMessage">
@@ -1055,10 +1195,8 @@
   <section id="lokasi" class="section section-location">
    <div class="container">
     <h2 class="section-title">Lokasi Rapat Kerja</h2>
-    <div class="map-container">
-     <div class="map-placeholder"><span>Klik untuk melihat lokasi di Google Maps</span>
-     </div>
-     <div class="location-address"><strong>Alamat Lengkap:</strong><br><span id="locationAddress">Aula Paroki Santo Matias<br>
+    <div class="map-container"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.5!2d131.3!3d-7.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d2754de6e26e543%3A0xc5c810c756c42bb3!2sGereja%20Katolik%20Paroki%20Santo%20Mathias%2C%20Saumlaki!5e0!3m2!1sid!2sid!4v1234567890!5m2!1sid!2sid" width="100%" height="450" style="border:0; border-radius: 18px;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+     <div class="location-address" style="margin-top: 2rem;"><strong>Alamat Lengkap:</strong><br><span id="locationAddress">Aula Paroki Santo Matias<br>
        Jl. Gereja, Saumlaki, Kepulauan Tanimbar<br>
        Maluku Barat Daya</span>
      </div>
@@ -1105,7 +1243,15 @@
      </div>
     </div>
    </div>
-  </section><!-- Footer -->
+  </section><!-- Modal Lihat Peserta -->
+  <div id="participantsModal" class="modal">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h2 class="modal-title">👥 Daftar Peserta Terdaftar</h2><button class="modal-close" onclick="closeParticipantsModal()">×</button>
+    </div>
+    <div id="participantsTableContainer"></div>
+   </div>
+  </div><!-- Footer -->
   <footer class="footer">
    <p class="footer-text">© 2025 Kaum Bapak Katolik Kevikepan KKT-MBD. Semua hak dilindungi.</p>
    <div class="social-links"><a href="#" class="social-link" target="_blank" rel="noopener noreferrer" title="Facebook">📘</a> <a href="#" class="social-link" target="_blank" rel="noopener noreferrer" title="Instagram">📷</a> <a href="#" class="social-link" target="_blank" rel="noopener noreferrer" title="YouTube">📺</a>
@@ -1167,10 +1313,9 @@
 
       const formData = {
         nama_lengkap: document.getElementById('namaLengkap').value,
-        paroki_desa: document.getElementById('parokiDesa').value,
-        nomor_hp: document.getElementById('nomorHp').value,
+        paroki: document.getElementById('paroki').value,
+        nomor_hp: document.getElementById('nomorHp').value || "-",
         email: document.getElementById('email').value || "-",
-        jumlah_peserta: document.getElementById('jumlahPeserta').value,
         catatan: document.getElementById('catatan').value || "-",
         tanggal_daftar: new Date().toISOString()
       };
@@ -1335,8 +1480,88 @@
       });
     }
 
+    // Modal Functions
+    function openParticipantsModal() {
+      const modal = document.getElementById('participantsModal');
+      modal.classList.add('show');
+      renderParticipantsTable();
+    }
+
+    function closeParticipantsModal() {
+      const modal = document.getElementById('participantsModal');
+      modal.classList.remove('show');
+    }
+
+    function renderParticipantsTable() {
+      const container = document.getElementById('participantsTableContainer');
+      
+      if (registrationData.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📋</div>
+            <div class="empty-state-text">Belum ada peserta yang terdaftar</div>
+          </div>
+        `;
+        return;
+      }
+
+      let tableHTML = `
+        <table class="participants-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Lengkap</th>
+              <th>Paroki</th>
+              <th>No HP / WhatsApp</th>
+              <th>Email</th>
+              <th>Catatan</th>
+              <th>Tanggal Daftar</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      registrationData.forEach((participant, index) => {
+        const tanggalDaftar = new Date(participant.tanggal_daftar);
+        const formattedDate = tanggalDaftar.toLocaleDateString('id-ID', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        tableHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${participant.nama_lengkap}</td>
+            <td>${participant.paroki}</td>
+            <td>${participant.nomor_hp}</td>
+            <td>${participant.email}</td>
+            <td>${participant.catatan}</td>
+            <td>${formattedDate}</td>
+          </tr>
+        `;
+      });
+
+      tableHTML += `
+          </tbody>
+        </table>
+      `;
+
+      container.innerHTML = tableHTML;
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('participantsModal');
+      if (event.target === modal) {
+        closeParticipantsModal();
+      }
+    });
+
     // Initialize
     initializeDataSdk();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99b9b660c4d6cdfd',t:'MTc2MjY1MzU4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99b9cc2153ad99a9',t:'MTc2MjY1NDQ3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
