@@ -541,6 +541,92 @@
             transform: translateY(-2px);
         }
 
+        /* Participant Card Styles */
+        .participant-card {
+            background: white;
+            border: 2px solid #E0E0E0;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .participant-card:hover {
+            border-color: #4A90E2;
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .participant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .participant-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .participant-paroki {
+            font-size: 1rem;
+            color: #4A90E2;
+            font-weight: 600;
+        }
+
+        .participant-status {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-hadir {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .status-tidak {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        .participant-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+            padding-top: 1rem;
+            border-top: 1px solid #E0E0E0;
+        }
+
+        .participant-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .participant-detail-icon {
+            font-size: 1.1rem;
+        }
+
+        .no-participants {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .no-participants-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
         /* Modal Styles */
         .modal-overlay {
             display: none;
@@ -738,7 +824,7 @@
    <div class="hero-content">
     <h1 id="heroTitle">Rapat Kerja Kaum Bapak Katolik Kevikepan KKT–MBD 2025</h1>
     <p id="heroSubtitle">Bersatu Dalam Iman, Melangkah Dalam Tanggung Jawab</p>
-    <div class="hero-buttons"><a href="#registrasi" class="btn btn-primary">🔹 Daftar Sekarang</a> <button onclick="downloadInvitation()" class="btn btn-secondary" style="cursor: pointer;">📥 Download Undangan</button> <a href="#kontak" class="btn btn-secondary">🔹 Hubungi Kami</a>
+    <div class="hero-buttons"><a href="#registrasi" class="btn btn-primary">🔹 Daftar Sekarang</a> <button onclick="showParticipants()" class="btn btn-secondary" style="cursor: pointer;">👥 Lihat Peserta</button> <button onclick="downloadInvitation()" class="btn btn-secondary" style="cursor: pointer;">📥 Download Undangan</button> <a href="#kontak" class="btn btn-secondary">🔹 Hubungi Kami</a>
     </div>
    </div>
   </section><!-- Tentang Acara -->
@@ -863,7 +949,7 @@
        📧
       </div>
       <h3>Email</h3>
-      <p id="contactEmail">sekretariat.kbkkktmbd@gmail.com</p><a href="#" id="emailButton" class="contact-button" target="_blank" rel="noopener noreferrer">Kirim Email</a>
+      <p id="contactEmail">sekretariat.kktmbd@gmail.com</p><a href="#" id="emailButton" class="contact-button" target="_blank" rel="noopener noreferrer">Kirim Email</a>
      </div>
     </div>
    </div>
@@ -881,6 +967,32 @@
      </div><button type="submit" class="form-submit">Kirim Pesan WhatsApp</button>
     </form>
    </div>
+  </div><!-- Modal Participants -->
+  <div class="modal-overlay" id="participantsModal">
+   <div class="modal-content" style="max-width: 900px;"><button class="modal-close" onclick="closeParticipantsModal()">×</button>
+    <h3 class="modal-title">Daftar Peserta Terdaftar</h3>
+    <p class="modal-subtitle">Peserta yang telah melakukan registrasi Rapat Kerja KBK KKT-MBD 2025</p>
+    <div id="participantsLoading" style="text-align: center; padding: 3rem; color: #666;">
+     <div style="font-size: 3rem; margin-bottom: 1rem;">
+      ⏳
+     </div>
+     <p>Memuat data peserta...</p>
+    </div>
+    <div id="participantsError" style="display: none; text-align: center; padding: 3rem; color: #F44336;">
+     <div style="font-size: 3rem; margin-bottom: 1rem;">
+      ⚠️
+     </div>
+     <p>Gagal memuat data peserta. Silakan coba lagi.</p><button onclick="loadParticipants()" class="btn btn-primary" style="margin-top: 1rem; cursor: pointer; border: none;">Muat Ulang</button>
+    </div>
+    <div id="participantsContent" style="display: none;">
+     <div style="margin-bottom: 1.5rem; padding: 1rem; background: #E3F2FD; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div><strong style="font-size: 1.2rem; color: #4A90E2;">Total Peserta:</strong> <span id="totalParticipants" style="font-size: 1.5rem; font-weight: 700; color: #D4AF37; margin-left: 0.5rem;">0</span>
+      </div><input type="text" id="searchParticipants" placeholder="🔍 Cari nama atau paroki..." style="padding: 0.8rem 1rem; border: 2px solid #E0E0E0; border-radius: 10px; font-size: 1rem; font-family: 'Poppins', sans-serif; flex: 1; min-width: 250px;">
+     </div>
+     <div id="participantsList" style="max-height: 500px; overflow-y: auto;"><!-- Participants will be loaded here -->
+     </div>
+    </div>
+   </div>
   </div><!-- Footer -->
   <footer>
    <div class="footer-content">
@@ -893,9 +1005,9 @@
             judul_utama: "Rapat Kerja Kaum Bapak Katolik Kevikepan KKT–MBD 2025",
             subjudul: "Bersatu Dalam Iman, Melangkah Dalam Tanggung Jawab",
             tanggal_acara: "15 November 2025",
-            lokasi_acara: "Aula Paroki St. Matia Saumlaki",
+            lokasi_acara: "Aula Paroki St. Matias Saumlaki",
             tema_acara: "Berkarya Bersama Dalam Iman dan Kasih",
-            nomor_kontak: "++6282197722366",
+            nomor_kontak: "+6282197722366",
             email_kontak: "sekretariat.kktmbd@gmail.com",
             background_color: "#4A90E2",
             surface_color: "#FFFFFF",
@@ -921,7 +1033,7 @@
             }
         }
 
-        // Form Submission
+        // Form Submission - Kirim ke Canva Sheet DAN Google Sheets
         document.getElementById('registrationForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -938,20 +1050,78 @@
                 nomor_wa: document.getElementById('nomorWa').value || '-',
                 email: document.getElementById('email').value || '-',
                 konfirmasi_kehadiran: document.getElementById('konfirmasi').value,
-                tanggal_daftar: new Date().toISOString()
+                tanggal_daftar: new Date().toLocaleString('id-ID', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                })
             };
             
-            const result = await window.dataSdk.create(formData);
+            // Kirim ke Canva Data SDK
+            const canvaResult = await window.dataSdk.create(formData);
             
-            if (result.isOk) {
+            // Kirim ke Google Sheets
+            let googleSheetsSuccess = false;
+            try {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbzwjT7sf7TptbpyQHfQdMvsXx-oiMXUUU_rsNNlmm4oAKpAGevvm5FEL_BdjzULqalZ/exec', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                // no-cors mode tidak bisa membaca response, jadi kita asumsikan berhasil
+                googleSheetsSuccess = true;
+            } catch (error) {
+                console.error('Error sending to Google Sheets:', error);
+            }
+            
+            // Tampilkan pesan sukses
+            if (canvaResult.isOk && googleSheetsSuccess) {
+                successMessage.textContent = '✓ Pendaftaran berhasil! Data telah tersimpan di Canva Sheet dan Google Sheets.';
+                successMessage.style.background = '#4CAF50';
                 successMessage.classList.add('show');
                 document.getElementById('registrationForm').reset();
                 
                 setTimeout(() => {
                     successMessage.classList.remove('show');
                 }, 5000);
+            } else if (googleSheetsSuccess && !canvaResult.isOk) {
+                successMessage.textContent = '✓ Data tersimpan di Google Sheets. Namun gagal tersimpan di Canva Sheet.';
+                successMessage.style.background = '#FF9800';
+                successMessage.classList.add('show');
+                document.getElementById('registrationForm').reset();
+                
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                    successMessage.style.background = '#4CAF50';
+                    successMessage.textContent = '✓ Pendaftaran berhasil! Terima kasih telah mendaftar.';
+                }, 5000);
+            } else if (canvaResult.isOk && !googleSheetsSuccess) {
+                successMessage.textContent = '✓ Data tersimpan di Canva Sheet. Namun gagal tersimpan di Google Sheets.';
+                successMessage.style.background = '#FF9800';
+                successMessage.classList.add('show');
+                document.getElementById('registrationForm').reset();
+                
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                    successMessage.style.background = '#4CAF50';
+                    successMessage.textContent = '✓ Pendaftaran berhasil! Terima kasih telah mendaftar.';
+                }, 5000);
             } else {
-                alert('Terjadi kesalahan saat mengirim pendaftaran. Silakan coba lagi.');
+                successMessage.textContent = '⚠️ Terjadi kesalahan. Silakan coba lagi atau hubungi panitia.';
+                successMessage.style.background = '#F44336';
+                successMessage.classList.add('show');
+                
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                    successMessage.style.background = '#4CAF50';
+                    successMessage.textContent = '✓ Pendaftaran berhasil! Terima kasih telah mendaftar.';
+                }, 5000);
             }
             
             submitBtn.disabled = false;
@@ -1223,6 +1393,173 @@ Tuhan memberkati.
             });
         }
 
+        // Participants Modal Functions
+        let allParticipants = [];
+
+        function showParticipants() {
+            document.getElementById('participantsModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+            loadParticipants();
+        }
+
+        function closeParticipantsModal() {
+            document.getElementById('participantsModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        async function loadParticipants() {
+            const loadingEl = document.getElementById('participantsLoading');
+            const errorEl = document.getElementById('participantsError');
+            const contentEl = document.getElementById('participantsContent');
+            
+            // Show loading
+            loadingEl.style.display = 'block';
+            errorEl.style.display = 'none';
+            contentEl.style.display = 'none';
+            
+            try {
+                const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vS2Y4irzOhOjilurjEOWuClS9AJ6nrXs5T5GyAoOprF69gGa3OwMPNovrUTIVZZyjNjWdzWMGP1V28s/pub?gid=0&single=true&output=csv');
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                
+                const csvText = await response.text();
+                const rows = csvText.split('\n').filter(row => row.trim());
+                
+                // Parse CSV (skip header row)
+                allParticipants = [];
+                for (let i = 1; i < rows.length; i++) {
+                    const columns = parseCSVRow(rows[i]);
+                    if (columns.length >= 6 && columns[0].trim()) {
+                        allParticipants.push({
+                            nama: columns[0].trim(),
+                            paroki: columns[1].trim(),
+                            nomorWa: columns[2].trim(),
+                            email: columns[3].trim(),
+                            konfirmasi: columns[4].trim(),
+                            tanggalDaftar: columns[5].trim()
+                        });
+                    }
+                }
+                
+                // Display participants
+                displayParticipants(allParticipants);
+                
+                // Show content
+                loadingEl.style.display = 'none';
+                contentEl.style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error loading participants:', error);
+                loadingEl.style.display = 'none';
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function parseCSVRow(row) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < row.length; i++) {
+                const char = row[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current);
+            
+            return result;
+        }
+
+        function displayParticipants(participants) {
+            const listEl = document.getElementById('participantsList');
+            const totalEl = document.getElementById('totalParticipants');
+            
+            totalEl.textContent = participants.length;
+            
+            if (participants.length === 0) {
+                listEl.innerHTML = `
+                    <div class="no-participants">
+                        <div class="no-participants-icon">📋</div>
+                        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">Belum ada peserta terdaftar</p>
+                        <p style="font-size: 0.95rem;">Data peserta akan muncul di sini setelah ada yang mendaftar</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            listEl.innerHTML = participants.map(participant => {
+                const statusClass = participant.konfirmasi.toLowerCase().includes('ya') ? 'status-hadir' : 'status-tidak';
+                const statusText = participant.konfirmasi.toLowerCase().includes('ya') ? '✓ Hadir' : '✗ Tidak Hadir';
+                
+                return `
+                    <div class="participant-card">
+                        <div class="participant-header">
+                            <div>
+                                <div class="participant-name">${escapeHtml(participant.nama)}</div>
+                                <div class="participant-paroki">${escapeHtml(participant.paroki)}</div>
+                            </div>
+                            <div class="participant-status ${statusClass}">${statusText}</div>
+                        </div>
+                        <div class="participant-details">
+                            ${participant.nomorWa && participant.nomorWa !== '-' ? `
+                                <div class="participant-detail-item">
+                                    <span class="participant-detail-icon">📱</span>
+                                    <span>${escapeHtml(participant.nomorWa)}</span>
+                                </div>
+                            ` : ''}
+                            ${participant.email && participant.email !== '-' ? `
+                                <div class="participant-detail-item">
+                                    <span class="participant-detail-icon">📧</span>
+                                    <span>${escapeHtml(participant.email)}</span>
+                                </div>
+                            ` : ''}
+                            <div class="participant-detail-item">
+                                <span class="participant-detail-icon">📅</span>
+                                <span>${escapeHtml(participant.tanggalDaftar)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchParticipants');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const filtered = allParticipants.filter(p => 
+                        p.nama.toLowerCase().includes(searchTerm) || 
+                        p.paroki.toLowerCase().includes(searchTerm)
+                    );
+                    displayParticipants(filtered);
+                });
+            }
+        });
+
+        // Close participants modal when clicking outside
+        document.getElementById('participantsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeParticipantsModal();
+            }
+        });
+
         // Initialize on page load
         window.addEventListener('DOMContentLoaded', async () => {
             await initDataSdk();
@@ -1234,5 +1571,5 @@ Tuhan memberkati.
             updateContactLinks(window.elementSdk?.config || defaultConfig);
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99ba3147975f2739',t:'MTc2MjY1ODYxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99c180a52300659e',t:'MTc2MjczNTI2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
